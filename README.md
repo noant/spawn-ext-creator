@@ -11,7 +11,7 @@ Installed extension id: **`extension-creator`** (see `extsrc/config.yaml` → `n
 After you install it into a **target project**, you get:
 
 - **Guides** copied under `spawn-ext-guide/` — a full human guide (`user-guide.md`) and compact **machine-oriented** specs in `spawn-ext-guide/ai/` (`core`, `config-yaml`, `skill-sources`, `mcp-json`, `cli`) so agents and humans share the same Spawn packaging rules.
-- **Six workflow skills** (see below) your IDE can surface — each pulls in the relevant guide snippets via `required-read`, so the agent follows Spawn’s `extsrc/` layout, `config.yaml`, skills, MCP, and CLI without guessing.
+- **Seven workflow skills** (see below) your IDE can surface — each pulls in the relevant guide snippets via `required-read`, so the agent follows Spawn’s `extsrc/` layout, `config.yaml`, skills, MCP, and CLI without guessing.
 - A practical **pipeline** for new methodologies: design layout → scaffold repo → declare files and modes → write skill sources → optionally wire MCP → validate with `spawn extension check --strict` and a trial install.
 
 Use it whenever you want Cursor (or another Spawn-backed IDE) to help **create or maintain** another Spawn extension or a reusable methodology pack.
@@ -28,8 +28,9 @@ These skills are defined under `extsrc/skills/` and registered in `config.yaml`.
 | **`spawn-ext-skill-sources`** | Write **`extsrc/skills/*.md`**, register keys under `skills:`, wire **`required-read`** and naming so merged reads stay consistent. |
 | **`spawn-ext-mcp`** | Author **`extsrc/mcp.json`** in Spawn’s `servers[]` format (transport, env placeholders, capabilities, globally unique server names). |
 | **`spawn-ext-verify`** | Run **`spawn extension check . --strict`**, smoke-test **`spawn extension add`** in a disposable repo, healthcheck / distribution notes. |
+| **`spawn-ext-increment-version`** | Bump **`version`** in **`extsrc/config.yaml`** for a release (semver-style PATCH/MINOR/MAJOR guidance); keep **`name`** stable; optional changelog note. |
 
-Suggested order for a **new** pack: methodology shape → bootstrap → config → skill sources → (optional) MCP → verify.
+Suggested order for a **new** pack: methodology shape → bootstrap → config → skill sources → (optional) MCP → verify. Before publishing an update: increment version → verify.
 
 ## Contents
 

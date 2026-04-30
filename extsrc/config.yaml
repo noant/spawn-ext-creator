@@ -1,5 +1,5 @@
 schema: 1
-version: 0.1.0
+version: 0.1.1
 name: extension-creator
 
 files:
@@ -67,6 +67,13 @@ skills:
     description: Strict check extension layout and smoke-test install in a disposable target.
     required-read:
       - spawn-ext-guide/ai/core.md
+      - spawn-ext-guide/ai/cli.md
+  spawn-ext-increment-version.md:
+    name: spawn-ext-increment-version
+    description: Bump extension version in extsrc/config.yaml for releases (semver-oriented guidance).
+    required-read:
+      - spawn-ext-guide/ai/core.md
+      - spawn-ext-guide/ai/config-yaml.md
       - spawn-ext-guide/ai/cli.md
   spawn-methodology-shape.md:
     name: spawn-methodology-shape
