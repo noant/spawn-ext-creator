@@ -106,3 +106,7 @@ From **this** repository root (extension **source** tree), validate before publi
 ```bash
 spawn extension check . --strict
 ```
+
+## License
+
+MIT — see [LICENSE](LICENSE).
