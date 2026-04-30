@@ -1,110 +1,108 @@
-# extension-creator
+# Extension Creator (Spawn extension)
 
-Repository: [github.com/noant/spawn-ext-creator](https://github.com/noant/spawn-ext-creator)
+Extension Creator helps you **design and maintain Spawn extensions** — reusable methodology packs for Spawn-backed editors. It ships guides and seven companion skills so people and assistants follow one packaging workflow. Add it to your Git repository with the Spawn CLI.
 
-Spawn extension that helps you **author other Spawn extensions** and methodology packs.
+## Install
 
-Installed extension id: **`extension-creator`** (see `extsrc/config.yaml` → `name`).
+### 1. Install Spawn CLI (uv tool)
 
-## What this extension does
+Install [uv](https://docs.astral.sh/uv/), then install the Spawn command from PyPI into uv’s tools directory (**`spawn` must be on `PATH`** after install — see uv’s docs for tool paths):
 
-After you install it into a **target project**, you get:
+```bash
+uv tool install spawn-cli
+```
 
-- **Guides** copied under `spawn-ext-guide/` — a full human guide (`user-guide.md`) and compact **machine-oriented** specs in `spawn-ext-guide/ai/` (`core`, `config-yaml`, `skill-sources`, `mcp-json`, `cli`) so agents and humans share the same Spawn packaging rules.
-- **Seven workflow skills** (see below) your IDE can surface — each pulls in the relevant guide snippets via `required-read`, so the agent follows Spawn’s `extsrc/` layout, `config.yaml`, skills, MCP, and CLI without guessing.
-- A practical **pipeline** for new methodologies: design layout → scaffold repo → declare files and modes → write skill sources → optionally wire MCP → validate with `spawn extension check --strict` and a trial install.
+Upstream source repository: **[github.com/noant/spawn-cli](https://github.com/noant/spawn-cli)**.
 
-Use it whenever you want Cursor (or another Spawn-backed IDE) to help **create or maintain** another Spawn extension or a reusable methodology pack.
+### 2. Initialize the repo and add Extension Creator
 
-## Skills
+From the **root of the target git repository**, initialize Spawn once per repo, then install this extension:
 
-These skills are defined under `extsrc/skills/` and registered in `config.yaml`. Names are what typically appear in the IDE after Spawn renders them.
+```bash
+spawn init
+spawn extension add https://github.com/noant/spawn-ext-creator.git
+```
 
-| Skill | Purpose |
-|-------|---------|
-| **`spawn-methodology-shape`** | Shape a methodology before touching YAML: namespaces under `extsrc/files/`, what is **static** vs **artifact**, what goes into global vs skill-local reads. |
-| **`spawn-ext-bootstrap`** | Start from zero: run `spawn extension init`, set stable `name` / `version`, plan path prefixes so extensions do not collide in combined installs. |
-| **`spawn-ext-config`** | Maintain **`config.yaml`**: every file under `extsrc/files/` declared under `files`, `folders`, read flags, ignores, `setup` hooks, correct `mode`. |
-| **`spawn-ext-skill-sources`** | Write **`extsrc/skills/*.md`**, register keys under `skills:`, wire **`required-read`** and naming so merged reads stay consistent. |
-| **`spawn-ext-mcp`** | Author **`extsrc/mcp.json`** in Spawn’s `servers[]` format (transport, env placeholders, capabilities, globally unique server names). |
-| **`spawn-ext-verify`** | Run **`spawn extension check . --strict`**, smoke-test **`spawn extension add`** in a disposable repo, healthcheck / distribution notes. |
-| **`spawn-ext-increment-version`** | Bump **`version`** in **`extsrc/config.yaml`** for a release (semver-style PATCH/MINOR/MAJOR guidance); keep **`name`** stable; optional changelog note. |
+One line (same result without a prior global install; run from that repo root):
 
-Suggested order for a **new** pack: methodology shape → bootstrap → config → skill sources → (optional) MCP → verify. Before publishing an update: increment version → verify.
+```bash
+uvx --from spawn-cli spawn init && uvx --from spawn-cli spawn extension add https://github.com/noant/spawn-ext-creator.git
+```
 
-## Contents
-
-| Path | Role |
-|------|------|
-| `extsrc/files/spawn-ext-guide/user-guide.md` | Full human-readable authoring guide |
-| `extsrc/files/spawn-ext-guide/ai/*.md` | Compact machine-oriented specs (`core`, `config-yaml`, `skill-sources`, `mcp-json`, `cli`) |
-| `extsrc/skills/*.md` | Skill sources shipped with this pack (listed in **Skills**) |
-
-After installation into a target repo, templates are materialized under paths declared in `config.yaml` (e.g. `spawn-ext-guide/...`). Skills are rendered by your IDE adapter according to Spawn rules.
-
-## Prerequisites
-
-- **Spawn CLI** (`spawn`) installed and on `PATH`
-- A **target git repository** where you want this extension installed
-
-Install the CLI using the official Spawn distribution instructions for your platform (the exact package or binary name depends on how Spawn is shipped in your environment).
-
-## Installation
-
-Run all commands from the **root of the target repository** (the project that should receive the extension).
-
-1. Initialize Spawn metadata in the target (once per repo):
-
-   ```bash
-   spawn init
-   ```
-
-2. Install this extension from Git:
-
-   ```bash
-   spawn extension add https://github.com/noant/spawn-ext-creator.git
-   ```
-
-   Optional branch:
-
-   ```bash
-   spawn extension add https://github.com/noant/spawn-ext-creator.git --branch main
-   ```
-
-   Or from a **local clone** (same tree):
-
-   ```bash
-   spawn extension add /path/to/spawn-ext-creator
-   ```
-
-3. Confirm the extension is registered:
-
-   ```bash
-   spawn extension list
-   ```
-
-You should see **`extension-creator`** (or the id defined by `name` in `extsrc/config.yaml`). Files appear under the paths listed in that manifest (for example `spawn-ext-guide/...`).
-
-## Updating or removing
+### Update or remove
 
 ```bash
 spawn extension update extension-creator
 spawn extension remove extension-creator
 ```
 
-Names match `name` in `extsrc/config.yaml`.
+Extension ids match **`name`** in this pack’s `extsrc/config.yaml`.
 
-## Developing this repo
+## How it works
 
-From this repository root (the extension **source** tree):
+You use Extension Creator when Cursor (or another Spawn-backed IDE) should **create or maintain** another Spawn extension or reusable methodology pack without guessing `extsrc/` layout, `config.yaml`, skills, MCP, or CLI checks.
+
+The practical pipeline:
+
+1. **Shape** the methodology — namespaces under `extsrc/files/`, what is **static** vs **artifact**, what belongs in global reads vs skill-local reads (**spawn-methodology-shape**).
+2. **Bootstrap** the repo — `spawn extension init`, stable **`name`** / **`version`**, path prefixes that avoid collisions when multiple extensions install together (**spawn-ext-bootstrap**).
+3. **Declare** everything in **`config.yaml`** — every file under `extsrc/files/`, folders, read flags, ignores, **`setup`**, correct **`mode`** (**spawn-ext-config**).
+4. **Author skills** — `extsrc/skills/*.md`, register keys under **`skills:`**, wire **`required-read`** so merges stay consistent (**spawn-ext-skill-sources**).
+5. Optionally **wire MCP** — `extsrc/mcp.json` in Spawn’s **`servers[]`** shape (**spawn-ext-mcp**).
+6. **Verify** — `spawn extension check . --strict` and a disposable **`spawn extension add`** smoke test (**spawn-ext-verify**).
+7. Before publishing an update, **bump `version`** and re-verify (**spawn-ext-increment-version**).
+
+Suggested order for a **new** pack: methodology shape → bootstrap → config → skill sources → (optional) MCP → verify. Before a release: increment version → verify.
+
+## The `spawn-ext-guide/` layout
+
+After install, Spawn materializes the paths declared in `extsrc/config.yaml`. Human narrative and compact machine specs live side by side so agents and authors share one rule set.
+
+- **`spawn-ext-guide/user-guide.md`** — full standalone authoring guide (narrative across all topics).
+- **`spawn-ext-guide/ai/core.md`** — machine baseline: `extsrc` tree, static vs artifact, naming and uniqueness, install outputs (**`localRead: required`** — baseline for merged reads).
+- **`spawn-ext-guide/ai/config-yaml.md`** — `config.yaml` schema: files, folders, skills modes, reads, ignores, setup.
+- **`spawn-ext-guide/ai/skill-sources.md`** — skill source markdown, frontmatter, **`required-read`**, rendered skill shape.
+- **`spawn-ext-guide/ai/mcp-json.md`** — `mcp.json` servers format, transport, env placeholders.
+- **`spawn-ext-guide/ai/cli.md`** — CLI commands, bundle shapes, authoring checklist.
+
+Skill sources that ship **with** this pack live under **`extsrc/skills/*.md`** in the Git repo and are registered under **`skills:`** in `extsrc/config.yaml`; your IDE renders them according to Spawn rules.
+
+## Core principles
+
+**Config is the contract.** Every path under `extsrc/files/` must appear under **`files`** (or **`folders`**) with the right **`mode`** and read flags — agents trained on these guides assume the manifest matches the tree.
+
+**Static vs artifact.** This extension ships guides as **`static`** templates. Methodology packs you author may use **`artifact`** for project-owned paths (user data, tasks, seeds) so updates do not clobber working files — declare that explicitly when shaping the pack.
+
+**Skills carry context.** Each skill lists **`required-read`** snippets under `spawn-ext-guide/` so the agent loads the same rules you would open manually; avoid duplicating long prose inside skill bodies when a guide section already exists.
+
+**Verify before publish.** **`spawn extension check . --strict`** plus a trial **`spawn extension add`** in a throwaway repo catches path drift and manifest mistakes early.
+
+**Stable identity, semver versions.** Keep **`name`** fixed across releases; bump **`version`** when you ship observable changes (**spawn-ext-increment-version**).
+
+## Skills
+
+After install, invoke these **skills** by name; Spawn renders them into your IDE’s skill/rules layout.
+
+| Skill | Purpose |
+|--------|--------|
+| **spawn-methodology-shape** | Shape a methodology before YAML: namespaces under `extsrc/files/`, **static** vs **artifact**, global vs skill-local reads. |
+| **spawn-ext-bootstrap** | Start from zero: `spawn extension init`, stable **`name`** / **`version`**, collision-safe path prefixes. |
+| **spawn-ext-config** | Maintain **`config.yaml`**: declare every file under `extsrc/files/`, **`folders`**, read flags, ignores, **`setup`**, **`mode`**. |
+| **spawn-ext-skill-sources** | Write **`extsrc/skills/*.md`**, register under **`skills:`**, wire **`required-read`** for consistent merges. |
+| **spawn-ext-mcp** | Author **`extsrc/mcp.json`** (transport, env placeholders, capabilities, globally unique server names). |
+| **spawn-ext-verify** | Run **`spawn extension check . --strict`**, smoke-test **`spawn extension add`** in a disposable repo. |
+| **spawn-ext-increment-version** | Bump **`version`** in **`extsrc/config.yaml`** for releases (semver-oriented); keep **`name`** stable. |
+
+## Navigation and reads
+
+**`spawn/navigation.yaml`** (generated by Spawn after install) is the merged index of what agents should read first (`read-required` / contextual reads). Guide fragments under **`spawn-ext-guide/ai/`** use **`localRead: required`** or **`auto`** in `extsrc/config.yaml` so they participate in that merge without hand-maintaining a separate navigation file.
+
+When you author **another** extension, declare its readable paths in **that** pack’s `extsrc/config.yaml` with the appropriate **`globalRead`** / **`localRead`** — same idea as registering extra design docs or methodology paths so combined installs stay coherent.
+
+---
+
+From **this** repository root (extension **source** tree), validate before publishing:
 
 ```bash
 spawn extension check . --strict
 ```
-
-Fix any reported issues before publishing or sharing the extension.
-
-## Documentation
-
-- Narrative guide: `extsrc/files/spawn-ext-guide/user-guide.md` (also installed into the target when you add this extension).
-- CLI checklist and bundle manifests: `extsrc/files/spawn-ext-guide/ai/cli.md`.
