@@ -1,2 +1,3 @@
+read-required:
+- rules: []
 read-contextual: []
-read-required: []
