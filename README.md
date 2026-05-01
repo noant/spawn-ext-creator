@@ -1,6 +1,6 @@
 # Extension Creator (Spawn extension)
 
-Extension Creator helps you **design and maintain Spawn extensions** — reusable methodology packs for Spawn-backed editors. It ships guides and seven companion skills so people and assistants follow one packaging workflow. Add it to your Git repository with the Spawn CLI.
+Extension Creator helps you **design and maintain Spawn extensions** — reusable methodology packs for Spawn-backed editors. It ships guides and eight companion skills so people and assistants follow one packaging workflow. Add it to your Git repository with the Spawn CLI.
 
 ## Install
 
@@ -52,7 +52,7 @@ The practical pipeline:
 6. **Verify** — `spawn extension check . --strict` and a disposable **`spawn extension add`** smoke test (**spawn-ext-verify**).
 7. Before publishing an update, **bump `version`** and re-verify (**spawn-ext-increment-version**).
 
-Suggested order for a **new** pack: methodology shape → bootstrap → config → skill sources → (optional) MCP → verify. Before a release: increment version → verify.
+Suggested order for a **new** pack: methodology shape → bootstrap → config → (optional) hints → skill sources → (optional) MCP → verify. Before a release: increment version → verify.
 
 ## The `spawn-ext-guide/` layout
 
@@ -88,6 +88,7 @@ After install, invoke these **skills** by name; Spawn renders them into your IDE
 | **spawn-methodology-shape** | Shape a methodology before YAML: namespaces under `extsrc/files/`, **static** vs **artifact**, global vs skill-local reads. |
 | **spawn-ext-bootstrap** | Start from zero: `spawn extension init`, stable **`name`** / **`version`**, collision-safe path prefixes. |
 | **spawn-ext-config** | Maintain **`config.yaml`**: declare every file under `extsrc/files/`, **`folders`**, read flags, ignores, **`setup`**, **`mode`**. |
+| **spawn-ext-hints** | Declare optional **`hints.global`** / **`hints.local`** lists (plain strings) merged into navigation, rendered skills, and **`AGENTS.md`** where applicable. |
 | **spawn-ext-skill-sources** | Write **`extsrc/skills/*.md`**, register under **`skills:`**, wire **`required-read`** for consistent merges. |
 | **spawn-ext-mcp** | Author **`extsrc/mcp.json`** (transport, env placeholders, capabilities, globally unique server names). |
 | **spawn-ext-verify** | Run **`spawn extension check . --strict`**, smoke-test **`spawn extension add`** in a disposable repo. |
