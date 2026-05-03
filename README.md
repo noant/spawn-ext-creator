@@ -48,7 +48,7 @@ The practical pipeline:
 2. **Bootstrap** the repo — `spawn extension init`, stable **`name`** / **`version`**, path prefixes that avoid collisions when multiple extensions install together (**spawn-ext-bootstrap**).
 3. **Declare** everything in **`config.yaml`** — every file under `extsrc/files/`, folders, read flags, ignores, **`setup`**, correct **`mode`** (**spawn-ext-config**).
 4. **Author skills** — `extsrc/skills/*.md`, register keys under **`skills:`**, wire **`required-read`** so merges stay consistent (**spawn-ext-skill-sources**).
-5. Optionally **wire MCP** — `extsrc/mcp.json` in Spawn’s **`servers[]`** shape (**spawn-ext-mcp**).
+5. Optionally **wire MCP** — **`extsrc/mcp/windows.json`**, **`linux.json`**, **`macos.json`** in Spawn’s **`servers[]`** shape per file (**spawn-ext-mcp**).
 6. **Verify** — `spawn extension check . --strict` and a disposable **`spawn extension add`** smoke test (**spawn-ext-verify**).
 7. Before publishing an update, **bump `version`** and re-verify (**spawn-ext-increment-version**).
 
@@ -62,7 +62,7 @@ After install, Spawn materializes the paths declared in `extsrc/config.yaml`. Hu
 - **`spawn-ext-guide/ai/core.md`** — machine baseline: `extsrc` tree, static vs artifact, naming and uniqueness, install outputs (**`localRead: required`** — baseline for merged reads).
 - **`spawn-ext-guide/ai/config-yaml.md`** — `config.yaml` schema: files, folders, skills modes, reads, ignores, setup.
 - **`spawn-ext-guide/ai/skill-sources.md`** — skill source markdown, frontmatter, **`required-read`**, rendered skill shape.
-- **`spawn-ext-guide/ai/mcp-json.md`** — `mcp.json` servers format, transport, env placeholders.
+- **`spawn-ext-guide/ai/mcp-json.md`** — per-platform **`extsrc/mcp/*.json`** (**servers**, transport, env placeholders, aligned **`name`** sets).
 - **`spawn-ext-guide/ai/cli.md`** — CLI commands, bundle shapes, authoring checklist.
 
 Skill sources that ship **with** this pack live under **`extsrc/skills/*.md`** in the Git repo and are registered under **`skills:`** in `extsrc/config.yaml`; your IDE renders them according to Spawn rules.
@@ -90,7 +90,7 @@ After install, invoke these **skills** by name; Spawn renders them into your IDE
 | **spawn-ext-config** | Maintain **`config.yaml`**: declare every file under `extsrc/files/`, **`folders`**, read flags, ignores, **`setup`**, **`mode`**. |
 | **spawn-ext-hints** | Declare optional **`hints.global`** / **`hints.local`** lists (plain strings) merged into navigation, rendered skills, and **`AGENTS.md`** where applicable. |
 | **spawn-ext-skill-sources** | Write **`extsrc/skills/*.md`**, register under **`skills:`**, wire **`required-read`** for consistent merges. |
-| **spawn-ext-mcp** | Author **`extsrc/mcp.json`** (transport, env placeholders, capabilities, globally unique server names). |
+| **spawn-ext-mcp** | Author **`extsrc/mcp/*.json`** — three OS files; **`servers[]`** transport, env placeholders, capabilities; globally unique server **`name`**s with identical name sets across platforms. |
 | **spawn-ext-verify** | Run **`spawn extension check . --strict`**, smoke-test **`spawn extension add`** in a disposable repo. |
 | **spawn-ext-increment-version** | Bump **`version`** in **`extsrc/config.yaml`** for releases (semver-oriented); keep **`name`** stable. |
 
