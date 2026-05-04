@@ -26,7 +26,8 @@ files:
   spawn-ext-guide/ai/mcp-json.md:
     description: >-
       Machine schema for extsrc/mcp/windows.json, linux.json, macos.json — servers,
-      OS selection, aligned name sets, transport, env, capabilities, JSON examples.
+      OS selection, aligned name sets, transport, spawn_stdio_proxy (stdio IDE proxy),
+      env, capabilities, validation against check, JSON examples.
     mode: static
     globalRead: no
     localRead: auto
@@ -69,7 +70,7 @@ skills:
     name: spawn-ext-mcp
     description: >-
       Add or edit extsrc/mcp/*.json — three platform files, Spawn servers shape,
-      matching server names, safe env placeholders.
+      matching server names, optional spawn_stdio_proxy for stdio, safe env placeholders.
     required-read:
       - spawn-ext-guide/ai/core.md
       - spawn-ext-guide/ai/mcp-json.md
