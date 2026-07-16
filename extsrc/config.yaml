@@ -1,5 +1,5 @@
 schema: 1
-version: 0.2.0
+version: 0.2.1
 name: extension-creator
 
 files:
@@ -94,6 +94,16 @@ skills:
       - spawn-ext-guide/ai/core.md
       - spawn-ext-guide/ai/config-yaml.md
       - spawn-ext-guide/user-guide.md
+  spawn-methodology-update.md:
+    name: spawn-methodology-update
+    description: >-
+      Update methodology from a user instruction — clarify scope, apply changes,
+      validate, bump version, and offer a git commit with a suggested message.
+    required-read:
+      - spawn-ext-guide/ai/core.md
+      - spawn-ext-guide/ai/config-yaml.md
+      - spawn-ext-guide/ai/skill-sources.md
+      - spawn-ext-guide/ai/cli.md
   spawn-ext-extract-stack-patterns.md:
     name: spawn-ext-extract-stack-patterns
     description: Analyze a reference codebase and distill universal stack patterns into extension spec files and procedural skills.
